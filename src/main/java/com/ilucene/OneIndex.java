@@ -27,7 +27,17 @@ public class OneIndex {
 	
 	private static Logger logger = LoggerFactory.getLogger(OneIndex.class);
 	private IndexWriter writer;
-	
+	static String indexDir ;
+	static String dataDir;
+	static{
+		indexDir = OneIndex.class.getClassLoader().getResource("index").getPath();
+		dataDir = OneIndex.class.getClassLoader().getResource("index/data").getPath();
+		if(!System.getProperty("file.separator").equals("/")){ // windows os
+			indexDir = indexDir.substring(1).replaceAll("/", "\\\\\\\\");
+			dataDir = dataDir.substring(1).replaceAll("/", "\\\\\\\\");
+		}
+		logger.info("---index directory location: " + indexDir);
+	}
 	public OneIndex(String indexDir) throws IOException {
 		Directory dir = FSDirectory.open(new File(indexDir));
 		writer = new IndexWriter(dir, 
@@ -91,13 +101,7 @@ public class OneIndex {
 //			}
 //			String indexDir = args[0];
 //			String dataDir = args[1];
-		String indexDir = OneIndex.class.getClassLoader().getResource("index").getPath();
-		String dataDir = OneIndex.class.getClassLoader().getResource("index/data").getPath();
-		if(!System.getProperty("file.separator").equals("/")){ // windows os
-			indexDir = indexDir.substring(1).replaceAll("/", "\\\\\\\\");
-			dataDir = dataDir.substring(1).replaceAll("/", "\\\\\\\\");
-		}
-		logger.info("---index directory location: " + indexDir);
+
 		long start = System.currentTimeMillis();
 		OneIndex indexer = new OneIndex(indexDir);
 		int numIndexed;
