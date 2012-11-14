@@ -15,6 +15,8 @@ import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ilucene.util.FileUtil;
+
 /**
  * index the properties of a files:
  * content,
@@ -27,18 +29,20 @@ public class OneIndex {
 	
 	private static Logger logger = LoggerFactory.getLogger(OneIndex.class);
 	private IndexWriter writer;
-	static String indexDir ;
-	static String dataDir;
-	static{
-		indexDir = OneIndex.class.getClassLoader().getResource("index").getPath();
-		dataDir = OneIndex.class.getClassLoader().getResource("index/data").getPath();
-		if(!System.getProperty("file.separator").equals("/")){ // windows os
-			indexDir = indexDir.substring(1).replaceAll("/", "\\\\\\\\");
-			dataDir = dataDir.substring(1).replaceAll("/", "\\\\\\\\");
-		}
+	/*------Index directory path----------------*/
+	private static String indexDir ;    
+	/*------Data directory path----------------*/
+	private static String dataDir;
+
+	/**
+	 * Initializes the data directory and files directory
+	 */
+	public OneIndex(){
+		indexDir = FileUtil.getIndexDir();
+		dataDir = FileUtil.getDataDir();
 		logger.info("---index directory location: " + indexDir);
 	}
-	public OneIndex(String indexDir) throws IOException {
+	public void storeIndexDir(String indexDir) throws IOException {
 		Directory dir = FSDirectory.open(new File(indexDir));
 		writer = new IndexWriter(dir, 
 								 new StandardAnalyzer(Version.LUCENE_30),
@@ -103,7 +107,8 @@ public class OneIndex {
 //			String dataDir = args[1];
 
 		long start = System.currentTimeMillis();
-		OneIndex indexer = new OneIndex(indexDir);
+		OneIndex indexer = new OneIndex();
+		indexer.storeIndexDir( indexDir);
 		int numIndexed;
 		try {
 			numIndexed = indexer.index(dataDir, new TextFilesFilter());
@@ -113,6 +118,8 @@ public class OneIndex {
 		logger.info("Indexing " + numIndexed + " files took "
 								+ (System.currentTimeMillis() - start) +
 								" milliseconds");
+		SearchService service = new SearchService();
+		service.searchContent("contents", "license");
 	}
 
 }
