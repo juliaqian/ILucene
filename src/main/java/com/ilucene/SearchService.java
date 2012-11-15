@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.ilucene.util.CommonUtil;
+import com.ilucene.util.FileUtils;
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -20,7 +21,6 @@ import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.store.RAMDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ilucene.util.FileUtil;
 
 public class SearchService {
 
@@ -40,7 +40,7 @@ public class SearchService {
      */
 	public SearchService(){
 		if(indexDir == null){
-			indexDir = FileUtil.getIndexDir();
+			indexDir = FileUtils.getIndexDir();
 		}
 	}
 

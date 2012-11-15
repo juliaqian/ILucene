@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.ilucene.util.FileUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -14,8 +15,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.ilucene.util.FileUtil;
 
 /**
  * index the properties of a files:
@@ -38,8 +37,8 @@ public class OneIndex {
 	 * Initializes the data directory and files directory
 	 */
 	public OneIndex(){
-		indexDir = FileUtil.getIndexDir();
-		dataDir = FileUtil.getDataDir();
+		indexDir = FileUtils.getIndexDir();
+		dataDir = FileUtils.getDataDir();
 		logger.info("---index directory location: " + indexDir);
 	}
 	public void storeIndexDir(String indexDir) throws IOException {
@@ -122,4 +121,5 @@ public class OneIndex {
 		service.searchContent("contents", "license");
 	}
 
+	
 }
