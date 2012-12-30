@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @author John Liu
  */
-public class CommonUtil {
+public class CommonUtils {
     public static boolean hitsIncludeTitle(IndexSearcher searcher, TopDocs hits, String title)
             throws IOException {
         for (ScoreDoc match : hits.scoreDocs) {

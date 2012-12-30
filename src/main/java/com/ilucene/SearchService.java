@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
-import com.ilucene.util.CommonUtil;
+import com.ilucene.util.CommonUtils;
 import com.ilucene.util.FileUtils;
 import junit.framework.Assert;
 import org.apache.lucene.analysis.SimpleAnalyzer;
@@ -92,7 +92,7 @@ public class SearchService {
         IndexSearcher searcher = new IndexSearcher(directory);
         Term t = new Term(fieldName, searchString);
         Query query = new TermQuery(t);
-        int hitCount = CommonUtil.hitCount(searcher, query);  // equels "search(query, 1).totalHits"
+        int hitCount = CommonUtils.hitCount(searcher, query);  // equels "search(query, 1).totalHits"
         logger.debug("search " + query + " hitCount: "+ hitCount);
         searcher.close();
         return hitCount;
@@ -207,7 +207,7 @@ public class SearchService {
         finally {
             writer1.close();
             logger.warn("write2 can't be instantiated because it is "+ writer2 );
-            CommonUtil.rmDir(tempDir);
+            CommonUtils.rmDir(tempDir);
         }
     }
 
