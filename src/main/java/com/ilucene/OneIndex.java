@@ -27,11 +27,11 @@ import org.slf4j.LoggerFactory;
 public class OneIndex {
 	
 	private static Logger logger = LoggerFactory.getLogger(OneIndex.class);
-	private IndexWriter writer;
+	public IndexWriter writer;
 	/*------Index directory path----------------*/
-	private static String indexDir ;    
+    public static String indexDir ;
 	/*------Data directory path----------------*/
-	private static String dataDir;
+    public static String dataDir;
 
 	/**
 	 * Initializes the data directory and files directory
